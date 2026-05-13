@@ -4,6 +4,7 @@ import atexit
 import logging
 import os
 import re
+import shutil
 import tempfile
 import time
 from dataclasses import dataclass
@@ -46,6 +47,17 @@ _DISMISS_OVERLAY_TEXTS = [
 ]
 _LOGIN_SUBMIT_TEXTS = ["Войти", "Вход", "Продолжить", "Далее"]
 _CHAT_URL_TOKENS = ("/my/messages", "/messages", "/messenger", "/chat")
+
+
+def _resolve_chromedriver_path() -> str:
+    configured = os.getenv("KRISHA_CHROMEDRIVER", "").strip().strip('"')
+    if configured:
+        return configured
+    local_driver = Path(__file__).resolve().parent / "chromedriver.exe"
+    if local_driver.exists():
+        return str(local_driver)
+    found = shutil.which("chromedriver")
+    return found or ""
 
 
 def _env_flag(name: str, default: bool) -> bool:
@@ -208,7 +220,7 @@ class KrishaMessenger:
         if chrome_binary:
             options.binary_location = chrome_binary
 
-        driver_path = os.getenv("KRISHA_CHROMEDRIVER", "").strip()
+        driver_path = _resolve_chromedriver_path()
         service = Service(executable_path=driver_path) if driver_path else Service()
         try:
             driver = webdriver.Chrome(service=service, options=options)

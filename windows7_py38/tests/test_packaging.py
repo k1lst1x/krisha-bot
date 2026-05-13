@@ -51,8 +51,13 @@ def test_client_batch_files_split_install_and_run() -> None:
     install_script = (PROJECT_ROOT / "1_INSTALL_ONCE.bat").read_text(encoding="utf-8")
     run_script = (PROJECT_ROOT / "2_RUN_BOT.bat").read_text(encoding="utf-8")
 
-    assert "python -m venv .venv" in install_script
-    assert "pip install -r requirements.txt" in install_script
+    assert "%BOOTSTRAP_PY% -m venv .venv" in install_script
+    assert "BOOTSTRAP_PY" in install_script
+    assert "py -3.8" in install_script
+    assert ".venv\\Scripts\\python.exe" in install_script
+    assert "pip --disable-pip-version-check install -r requirements.txt" in install_script
+    assert "PIP_DISABLE_PIP_VERSION_CHECK=1" in install_script
+    assert "--disable-pip-version-check" in install_script
     assert "2_RUN_BOT.bat" in install_script
     assert "telegram_bot.py" not in install_script
 
@@ -60,3 +65,5 @@ def test_client_batch_files_split_install_and_run() -> None:
     assert "pip install -r requirements.txt" not in run_script
     assert "1_INSTALL_ONCE.bat" in run_script
     assert "KRISHA_CHROMEDRIVER" in run_script
+    assert "chromedriver.exe next to this file" in run_script
+    assert "placeholders=" in run_script

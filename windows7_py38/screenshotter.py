@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import os
+import shutil
 import time
 from datetime import datetime
 from pathlib import Path
@@ -21,6 +22,17 @@ DEFAULT_USER_AGENT = (
     "AppleWebKit/537.36 (KHTML, like Gecko) "
     "Chrome/109.0.0.0 Safari/537.36"
 )
+
+
+def _resolve_chromedriver_path() -> str:
+    configured = os.getenv("KRISHA_CHROMEDRIVER", "").strip().strip('"')
+    if configured:
+        return configured
+    local_driver = Path(__file__).resolve().parent / "chromedriver.exe"
+    if local_driver.exists():
+        return str(local_driver)
+    found = shutil.which("chromedriver")
+    return found or ""
 
 
 class BrowserScreenshotter:
@@ -108,7 +120,7 @@ class BrowserScreenshotter:
         if chrome_binary:
             options.binary_location = chrome_binary
 
-        driver_path = os.getenv("KRISHA_CHROMEDRIVER", "").strip()
+        driver_path = _resolve_chromedriver_path()
         service = Service(executable_path=driver_path) if driver_path else Service()
         try:
             browser = webdriver.Chrome(service=service, options=options)

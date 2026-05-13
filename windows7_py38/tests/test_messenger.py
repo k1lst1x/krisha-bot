@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from messenger import KrishaMessenger
+from messenger import KrishaMessenger, _resolve_chromedriver_path
 from scraper import Listing
 from selenium.common.exceptions import WebDriverException
 
@@ -159,3 +159,16 @@ def test_chrome_profile_start_failure_retries_with_temporary_profile(tmp_path, m
     assert "krisha-chrome-profile-" in calls[1]
     assert fake_driver.page_load_timeout == 12
     assert fake_driver.implicit_wait_timeout == 0
+
+
+def test_chromedriver_resolves_local_file_when_env_is_empty(monkeypatch, tmp_path) -> None:  # noqa: ANN001
+    fake_module = tmp_path / "messenger.py"
+    fake_module.write_text("", encoding="utf-8")
+    fake_driver = tmp_path / "chromedriver.exe"
+    fake_driver.write_text("", encoding="utf-8")
+
+    monkeypatch.delenv("KRISHA_CHROMEDRIVER", raising=False)
+    monkeypatch.setattr("messenger.__file__", str(fake_module))
+    monkeypatch.setattr("messenger.shutil.which", lambda name: None)
+
+    assert _resolve_chromedriver_path() == str(fake_driver)
