@@ -29,6 +29,8 @@ def test_windows7_build_uses_selenium_instead_of_playwright() -> None:
         "messenger.py",
         "screenshotter.py",
         "start.bat",
+        "1_INSTALL_ONCE.bat",
+        "2_RUN_BOT.bat",
         "run.sh",
         "Dockerfile",
     ]
@@ -43,3 +45,18 @@ def test_windows7_launcher_requires_python38() -> None:
 
     assert "sys.version_info[:2] == (3, 8)" in start_script
     assert "Python 3.8.10" in start_script
+
+
+def test_client_batch_files_split_install_and_run() -> None:
+    install_script = (PROJECT_ROOT / "1_INSTALL_ONCE.bat").read_text(encoding="utf-8")
+    run_script = (PROJECT_ROOT / "2_RUN_BOT.bat").read_text(encoding="utf-8")
+
+    assert "python -m venv .venv" in install_script
+    assert "pip install -r requirements.txt" in install_script
+    assert "2_RUN_BOT.bat" in install_script
+    assert "telegram_bot.py" not in install_script
+
+    assert "telegram_bot.py" in run_script
+    assert "pip install -r requirements.txt" not in run_script
+    assert "1_INSTALL_ONCE.bat" in run_script
+    assert "KRISHA_CHROMEDRIVER" in run_script

@@ -22,20 +22,26 @@ KRISHA_CHROME_BINARY=C:\Program Files\Google\Chrome\Application\chrome.exe
 
 Если `KRISHA_CHROMEDRIVER` пустой, Selenium попробует найти или скачать драйвер автоматически.
 
-## Запуск
+## Клиентский запуск
 
 ```bat
-start.bat
+1_INSTALL_ONCE.bat
 ```
 
-При первом запуске скрипт создаст `.env`, если его нет. Заполни:
+Первый файл запускается один раз: он проверит Python 3.8, создаст `.venv`, установит зависимости и создаст `.env`, если его нет. Заполни:
 
 - `KRISHA_LOGIN`
 - `KRISHA_PASSWORD`
 - `TELEGRAM_BOT_TOKEN`
 - `TELEGRAM_ALLOWED_PHONES`
 
-После заполнения снова запусти `start.bat`.
+После этого каждый обычный запуск:
+
+```bat
+2_RUN_BOT.bat
+```
+
+`start.bat` оставлен как старый совместимый запуск, но клиенту проще давать именно эти два файла.
 
 ## Ручная установка
 

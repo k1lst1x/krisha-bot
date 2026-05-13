@@ -24,7 +24,23 @@ TELEGRAM_RUN_TIMEOUT_SEC=900
 
 `KRISHA_CHROMEDRIVER` можно оставить пустым, если `chromedriver.exe` лежит в `PATH` или Selenium Manager смог скачать драйвер сам. Для клиентской Windows 7 надежнее указать путь явно.
 
-## Установка
+## Установка для клиента
+
+Один раз:
+
+```bat
+1_INSTALL_ONCE.bat
+```
+
+Потом каждый запуск:
+
+```bat
+2_RUN_BOT.bat
+```
+
+`1_INSTALL_ONCE.bat` создает `.venv`, ставит зависимости и создает `.env`, если его нет. `2_RUN_BOT.bat` проверяет `.env`, ChromeDriver path и запускает Telegram-бота.
+
+## Ручная установка
 
 ```bat
 python -m venv .venv
@@ -39,7 +55,7 @@ set PYTHONPATH=.
 .venv\Scripts\python telegram_bot.py
 ```
 
-Или одним кликом:
+Или старым одним кликом:
 
 ```bat
 start.bat
