@@ -1,5 +1,23 @@
 # krisha-bot Windows 7 / Python 3.8
 
+## Client quick start
+
+Use `1_INSTALL_ONCE.bat` once. It now tries to install/download everything the client normally needs:
+
+- Python 3.8.10, 64-bit or 32-bit depending on the Windows installation.
+- `.venv` and all packages from `requirements.txt`.
+- `chromedriver.exe` version `109.0.5414.74` for the Windows 7 Chrome line.
+- `.env` from `.env.example`, if `.env` does not exist yet.
+
+Chrome itself is checked too. If Chrome is missing and a Chrome 109 offline installer is placed next to the BAT files under one of these names, the install script runs it:
+
+- `ChromeStandaloneSetup64.exe`
+- `ChromeStandaloneSetup.exe`
+- `GoogleChromeStandaloneEnterprise64.msi`
+- `GoogleChromeStandaloneEnterprise.msi`
+
+If no local Chrome installer is present, the script stops with a clear warning. Use Chrome 109 on Windows 7; newer Chrome versions do not support Windows 7.
+
 Это отдельная совместимая копия проекта для компьютеров, где доступен только Python 3.8.x. Основная версия в корне репозитория не изменяется.
 
 ## Что изменено

@@ -36,20 +36,12 @@ if errorlevel 1 (
     exit /b 1
 )
 
-.venv\Scripts\python -c "from dotenv import load_dotenv; import os, sys; load_dotenv('.env'); required=['KRISHA_LOGIN','KRISHA_PASSWORD','TELEGRAM_BOT_TOKEN','TELEGRAM_ALLOWED_PHONES']; placeholders=('123456','+7700','your_','your-','token','password'); missing=[k for k in required if (not os.getenv(k,'').strip()) or any(os.getenv(k,'').strip().lower().startswith(p) for p in placeholders) or '...' in os.getenv(k,'')]; print('Missing .env values: '+', '.join(missing)) if missing else print('Environment OK'); sys.exit(1 if missing else 0)"
+.venv\Scripts\python client_preflight.py
 if errorlevel 1 (
     echo.
-    echo  Fill .env, save it, then run this file again.
-    echo.
-    start notepad ".env"
-    pause
-    exit /b 1
-)
-
-.venv\Scripts\python -c "from dotenv import load_dotenv; from pathlib import Path; import os, shutil, sys; load_dotenv('.env'); driver=os.getenv('KRISHA_CHROMEDRIVER','').strip().strip('\"'); ok=(Path(driver).exists() if driver else (Path('chromedriver.exe').exists() or shutil.which('chromedriver'))); print('ChromeDriver OK' if ok else 'ChromeDriver was not found. Put chromedriver.exe next to this file or set KRISHA_CHROMEDRIVER in .env'); sys.exit(0 if ok else 1)"
-if errorlevel 1 (
-    echo.
-    echo  Fix KRISHA_CHROMEDRIVER in .env or put chromedriver.exe in PATH.
+    echo  Fix the issue above, save .env if it opened, then run this file again.
+    echo  If Chrome is missing, install Chrome 109 for Windows 7.
+    echo  If you have an offline Chrome 109 installer, put it next to 1_INSTALL_ONCE.bat and run install again.
     echo.
     start notepad ".env"
     pause

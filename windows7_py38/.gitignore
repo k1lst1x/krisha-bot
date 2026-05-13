@@ -28,6 +28,9 @@ screenshots/*
 *.tar
 *.tar.gz
 *.rar
+chromedriver.exe
+chromedriver_*.zip
+python-3.8.10*.exe
 .DS_Store
 .idea/
 .vscode/
