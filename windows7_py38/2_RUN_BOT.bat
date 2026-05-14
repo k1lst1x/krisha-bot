@@ -4,6 +4,9 @@ chcp 65001 >nul
 cd /d "%~dp0"
 title Krisha Bot - Run
 
+set "PYTHONIOENCODING=utf-8:backslashreplace"
+set "PYTHONUTF8=1"
+
 echo.
 echo  =========================================
 echo   Krisha Bot - run

@@ -22,6 +22,19 @@ REQUIRED_ENV = [
 PLACEHOLDERS = ("123456", "+7700", "your_", "your-", "token", "password")
 
 
+def configure_console_output() -> None:
+    for stream_name in ("stdout", "stderr"):
+        stream = getattr(sys, stream_name, None)
+        if stream is not None and hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(errors="backslashreplace")
+            except (LookupError, OSError, ValueError):
+                pass
+
+
+configure_console_output()
+
+
 def missing_required_env(env: Mapping[str, str]) -> list[str]:
     missing: list[str] = []
     for key in REQUIRED_ENV:

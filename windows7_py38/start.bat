@@ -3,6 +3,9 @@ setlocal EnableDelayedExpansion
 chcp 65001 >nul
 title Krisha Bot Windows 7 Python 3.8
 
+set "PYTHONIOENCODING=utf-8:backslashreplace"
+set "PYTHONUTF8=1"
+
 echo.
 echo  =========================================
 echo   Krisha Bot - Windows 7 / Python 3.8

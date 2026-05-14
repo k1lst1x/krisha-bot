@@ -4,6 +4,8 @@ chcp 65001 >nul
 cd /d "%~dp0"
 title Krisha Bot - Install Once
 
+set "PYTHONIOENCODING=utf-8:backslashreplace"
+set "PYTHONUTF8=1"
 set PIP_DISABLE_PIP_VERSION_CHECK=1
 set "PF86=%ProgramFiles(x86)%"
 set "PYTHON_INSTALLER=python-3.8.10-amd64.exe"
