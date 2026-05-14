@@ -214,7 +214,7 @@ if not errorlevel 1 (
 
 echo.
 echo  ChromeDriver was not found. Downloading ChromeDriver %CHROMEDRIVER_VERSION%...
-.venv\Scripts\python -c "import pathlib, shutil, tempfile, urllib.request, zipfile; url='%CHROMEDRIVER_URL%'; z=pathlib.Path('%CHROMEDRIVER_ZIP%'); urllib.request.urlretrieve(url, z); td=pathlib.Path(tempfile.mkdtemp(prefix='chromedriver-')); zipfile.ZipFile(z).extractall(td); src=next(td.rglob('chromedriver.exe')); shutil.copy2(str(src), 'chromedriver.exe'); print(' ChromeDriver downloaded:', pathlib.Path('chromedriver.exe').resolve())"
+.venv\Scripts\python -c "import pathlib, shutil, tempfile, urllib.request, zipfile; url='%CHROMEDRIVER_URL%'; z=pathlib.Path('%CHROMEDRIVER_ZIP%'); urllib.request.urlretrieve(url, z); td=pathlib.Path(tempfile.mkdtemp(prefix='chromedriver-')); zipfile.ZipFile(z).extractall(td); src=next(td.rglob('chromedriver.exe')); shutil.copy2(str(src), 'chromedriver.exe'); print(' ChromeDriver downloaded: chromedriver.exe')"
 if errorlevel 1 (
     echo  [ERROR] Could not download/extract ChromeDriver.
     echo  Put matching chromedriver.exe next to these .bat files and run install again.

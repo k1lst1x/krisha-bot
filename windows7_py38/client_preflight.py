@@ -35,6 +35,10 @@ def configure_console_output() -> None:
 configure_console_output()
 
 
+def safe_console_text(value: object) -> str:
+    return str(value).encode("ascii", errors="backslashreplace").decode("ascii")
+
+
 def missing_required_env(env: Mapping[str, str]) -> list[str]:
     missing: list[str] = []
     for key in REQUIRED_ENV:
@@ -167,13 +171,13 @@ def run_preflight(env: Mapping[str, str], project_root: Path = PROJECT_ROOT) -> 
     if not driver:
         print("ChromeDriver was not found. Put chromedriver.exe next to this file or set KRISHA_CHROMEDRIVER in .env")
         return 1
-    print(f"ChromeDriver OK: {driver}")
+    print("ChromeDriver OK: " + safe_console_text(driver))
 
     chrome = resolve_chrome(env)
     if not chrome:
         print("Chrome was not found. Install Chrome 109 for Windows 7 or set KRISHA_CHROME_BINARY in .env")
         return 1
-    print(f"Chrome OK: {chrome}")
+    print("Chrome OK: " + safe_console_text(chrome))
 
     driver_version = get_chromedriver_version(driver)
     chrome_version = get_windows_file_version(chrome)

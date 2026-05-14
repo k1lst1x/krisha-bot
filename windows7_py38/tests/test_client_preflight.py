@@ -36,6 +36,14 @@ def test_missing_required_env_rejects_empty_and_placeholders() -> None:
     assert missing == ["KRISHA_LOGIN", "KRISHA_PASSWORD", "TELEGRAM_BOT_TOKEN"]
 
 
+def test_safe_console_text_escapes_non_ascii_path() -> None:
+    text = client_preflight.safe_console_text(r"C:\Users\Maksat\Загрузки\chromedriver.exe")
+
+    assert "Загрузки" not in text
+    assert "\\u0417" in text
+    assert text.endswith(r"\chromedriver.exe")
+
+
 def test_preflight_passes_with_matching_browser_versions(monkeypatch, tmp_path: Path) -> None:
     env = _valid_env(tmp_path)
     monkeypatch.setattr(client_preflight, "get_windows_file_version", lambda path: "109.0.5414.120")
