@@ -1,10 +1,11 @@
 @echo off
-setlocal EnableExtensions
+setlocal EnableExtensions EnableDelayedExpansion
 chcp 65001 >nul
 cd /d "%~dp0"
 title Krisha Bot - Install Once
 
 set PIP_DISABLE_PIP_VERSION_CHECK=1
+set "PF86=%ProgramFiles(x86)%"
 set "PYTHON_INSTALLER=python-3.8.10-amd64.exe"
 set "PYTHON_URL=https://www.python.org/ftp/python/3.8.10/python-3.8.10-amd64.exe"
 if /i "%PROCESSOR_ARCHITECTURE%"=="x86" if not defined PROCESSOR_ARCHITEW6432 (
@@ -158,17 +159,17 @@ if exist "%ProgramFiles%\Python38\python.exe" (
         goto :eof
     )
 )
-if exist "%ProgramFiles(x86)%\Python38-32\python.exe" (
-    "%ProgramFiles(x86)%\Python38-32\python.exe" -c "import sys; raise SystemExit(0 if sys.version_info[:2] == (3, 8) else 1)" >nul 2>&1
+if defined PF86 if exist "!PF86!\Python38-32\python.exe" (
+    "!PF86!\Python38-32\python.exe" -c "import sys; raise SystemExit(0 if sys.version_info[:2] == (3, 8) else 1)" >nul 2>&1
     if not errorlevel 1 (
-        set "BOOTSTRAP_PY="%ProgramFiles(x86)%\Python38-32\python.exe""
+        set "BOOTSTRAP_PY="!PF86!\Python38-32\python.exe""
         goto :eof
     )
 )
-if exist "%ProgramFiles(x86)%\Python38\python.exe" (
-    "%ProgramFiles(x86)%\Python38\python.exe" -c "import sys; raise SystemExit(0 if sys.version_info[:2] == (3, 8) else 1)" >nul 2>&1
+if defined PF86 if exist "!PF86!\Python38\python.exe" (
+    "!PF86!\Python38\python.exe" -c "import sys; raise SystemExit(0 if sys.version_info[:2] == (3, 8) else 1)" >nul 2>&1
     if not errorlevel 1 (
-        set "BOOTSTRAP_PY="%ProgramFiles(x86)%\Python38\python.exe""
+        set "BOOTSTRAP_PY="!PF86!\Python38\python.exe""
         goto :eof
     )
 )
@@ -251,7 +252,7 @@ exit /b 0
 :detect_chrome
 set "CHROME_FOUND="
 if exist "%ProgramFiles%\Google\Chrome\Application\chrome.exe" set "CHROME_FOUND=%ProgramFiles%\Google\Chrome\Application\chrome.exe"
-if exist "%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe" set "CHROME_FOUND=%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe"
+if defined PF86 if exist "!PF86!\Google\Chrome\Application\chrome.exe" set "CHROME_FOUND=!PF86!\Google\Chrome\Application\chrome.exe"
 if exist "%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe" set "CHROME_FOUND=%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe"
 goto :eof
 
